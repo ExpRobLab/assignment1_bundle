@@ -4,6 +4,11 @@ This bundle include:
 
 <!-- TODO add the inclusions -->
 
+## Exteral dependecies
+
+https://husarion.com/manuals/rosbot/
+https://github.com/fictionlab/ros_aruco_opencv.git
+
 ## Installation
 
 ### 1. Install *vcs*
