@@ -1,0 +1,13 @@
+repositories:
+  assignment1:
+    type: git
+    url: git@github.com:ExpRobLab/assignment1.git
+    version: main
+  robot_manager:
+    type: git
+    url: git@github.com:ExpRobLab/robot_manager.git
+    version: main
+  world_manager:
+    type: git
+    url: git@github.com:ExpRobLab/world_manager.git
+    version: main

@@ -1,0 +1,41 @@
+# Assignment 1 - Bundle
+
+This bundle include:
+
+<!-- TODO add the inclusions -->
+
+## Installation
+
+### 1. Install *vcs*
+
+```bash
+sudo apt install python3-vcstool
+```
+
+### 2. Go to your workspace
+
+```bash
+cd ~/path/to/your/workspace
+```
+
+### 3. Import the repositories into `\src`
+
+You can choose between HTTPS version or SSH version.
+
+#### HTTPS version:
+
+```bash
+vcs import src < assignment1_https.repos
+```
+
+#### SSH version:
+
+```bash
+vcs import src < assignment1_ssh.repos
+```
+
+### Build workspace
+
+```bash
+colcon build
+```
