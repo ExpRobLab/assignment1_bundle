@@ -12,10 +12,11 @@ This bundle include:
 sudo apt install python3-vcstool
 ```
 
-### 2. Go to your workspace
+### 2. Go to your workspace and mae the `\src` folder
 
 ```bash
 cd ~/path/to/your/workspace
+mkdir -p src
 ```
 
 ### 3. Import the repositories into `\src`
