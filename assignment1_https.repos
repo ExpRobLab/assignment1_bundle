@@ -11,3 +11,7 @@ repositories:
     type: git
     url: https://github.com/ExpRobLab/world_manager.git
     version: main
+  rosbot_ros:
+    type: git
+    url: https://github.com/husarion/rosbot_ros.git
+    version: main
