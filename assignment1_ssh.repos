@@ -7,7 +7,7 @@ repositories:
     type: git
     url: git@github.com:ExpRobLab/robot_manager.git
     version: main
-  world_manager:
+  worlds_manager:
     type: git
     url: git@github.com:ExpRobLab/world_manager.git
     version: main
