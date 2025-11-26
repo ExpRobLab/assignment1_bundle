@@ -15,3 +15,7 @@ repositories:
     type: git
     url: git@github.com:husarion/rosbot_ros.git
     version: main
+  ros_aruco_opencv:
+    type: git
+    url: git@github.com:fictionlab/ros_aruco_opencv.git
+    version: ros2
