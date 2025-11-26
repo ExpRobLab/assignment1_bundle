@@ -17,5 +17,5 @@ repositories:
     version: jazzy
   ros_aruco_opencv:
     type: git
-    url: git@github.com:fictionlab/ros_aruco_opencv.git
+    url: git@github.com:ExpRobLab/ros_aruco_opencv.git
     version: ros2
