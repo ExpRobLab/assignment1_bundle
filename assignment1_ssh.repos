@@ -2,7 +2,7 @@ repositories:
   assignment1:
     type: git
     url: git@github.com:ExpRobLab/assignment1.git
-    version: main
+    version: ari-circle
   robot_manager:
     type: git
     url: git@github.com:ExpRobLab/robot_manager.git
