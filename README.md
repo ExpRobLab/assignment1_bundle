@@ -1,7 +1,7 @@
 # Aruco detection and angular visual servoing in Gazebo & ROS 2
 
 **Assignment 1 — Experimental Robotics Lab**  
-Authors: Gian Marco Balia, Christian Negri Ravera, Francesca Amato, Filipo Salterini, Arian Tavousi, Milad Rabiei
+Authors: Gian Marco Balia, Christian Negri Ravera, Francesca Amato, Filippo Salterini, Arian Tavousi, Milad Rabiei
 
 **Short description:**  
 Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The system detects all markers, then, in ascending order of marker ID, rotates the robot to center each marker in the image (visual servoing phase), publishes an annotated image (with a circle around the marker) on a topic and saves the final frames. 
