@@ -119,12 +119,6 @@ Published:
 - `/cmd_vel`
 - `/final_marker_image`
 
-## TF frames used
-
-- `odom`
-- `base_footprint`
-- `marker_<ID>`
-
 # Detailed explanation of aruco_detections.py logic
 
 ## Node lifecycle & subscriptions
