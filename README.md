@@ -12,10 +12,11 @@ Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The sys
      <td>Rviz panel</td>
   </tr>
   <tr>
-    <td><img src="gazebo.png" width=533 height=300></td>
+    <td><img src="gazebo.gif" width=533 height=300></td>
     <td><img src="rviz.png" width=533 height=300></td>
   </tr>
  </table>
+
 ---
 
 # Description and features
@@ -27,6 +28,57 @@ Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The sys
   - rotates the robot to center the marker in the camera image (angular visual servoing),
   - when centered, draws a circle on the image, publishes it on `/final_marker_image` and saves to disk,
   - repeats for each marker in ascending order until done.
+
+
+## Workflow and Operational Logic
+
+The node implements a two‑stage behavior: **global detection** followed
+by **marker‑by‑marker centering**.
+
+### 1. Detection Phase
+
+-   The node subscribes to `/aruco_detections` and continuously rotates
+    the robot by publishing a fixed angular velocity.
+-   Each time an ArUco marker is detected, its transform relative to the
+    robot's base frame is retrieved from TF.
+-   Marker IDs are recorded until **five unique IDs** have been
+    observed.
+-   Once five markers are collected, the node sorts their IDs and
+    switches to the **centering phase**, starting with the first marker.
+
+### 2. Centering Phase (Global Alignment)
+
+-   The node selects the current target marker (e.g., `marker_12`) and
+    looks up its transform relative to the robot base.
+-   It computes the angular error using `atan2(y, x)` in the robot
+    frame.
+-   A proportional controller applies angular velocity to rotate the
+    robot until the marker is approximately centered.
+-   When the marker becomes visible in the image stream, the node
+    switches to **local optimization**.
+
+### 3. Local Optimization (Visual Servoing)
+
+-   The node uses an image‑derived variable (`local_z`) to refine the
+    centering with a more direct visual cue.
+-   When `|local_z|` falls below a threshold, the marker is considered
+    centered precisely.
+
+### 4. Image Capture
+
+-   Upon successful centering, the node:
+    -   Retrieves the last received image,
+    -   Draws a circle around the image center,
+    -   Saves the processed image to the workspace resources directory,
+    -   Publishes the modified image on `/final_marker_image`.
+
+### 5. Progression Through All Markers
+
+-   After finishing one marker, the node proceeds to the next ID in the
+    sorted list.
+-   When all markers have been centered and captured, the node enters
+    the `done` state and stops issuing velocity commands.
+
 
 ---
 
@@ -83,10 +135,6 @@ The bundle depends on the ArUco OpenCV ROS package:
 
 https://github.com/fictionlab/ros_aruco_opencv.git
 
-and ROSBot for actual implementation:
-
-https://husarion.com/manuals/rosbot/
-
 If you import via .repos this will be pulled automatically the Jazzy version. If not, clone it into src/.
 
 Important: the package maintainer may have a branch per ROS distro. If using Humble or Jazzy, check out the matching branch (or the aruco_detection branch referenced by your notes).
@@ -118,6 +166,12 @@ Published:
 
 - `/cmd_vel`
 - `/final_marker_image`
+
+## TF frames used
+
+- `odom`
+- `base_footprint`
+- `marker_<ID>`
 
 # Detailed explanation of aruco_detections.py logic
 
