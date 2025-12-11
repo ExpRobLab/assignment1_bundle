@@ -19,7 +19,7 @@ Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The sys
 
 ---
 
-# Description and features
+## Description and features
 - Gazebo simulation with a robot and 5 ArUco-marked boxes placed in a circular arrangement.
 - ArUco detection pipeline (via `ros_aruco_opencv` package).
 - `aruco_detections.py` node:
@@ -30,12 +30,12 @@ Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The sys
   - repeats for each marker in ascending order until done.
 
 
-## Workflow and Operational Logic
+### Workflow and Operational Logic
 
 The node implements a two‑stage behavior: **global detection** followed
 by **marker‑by‑marker centering**.
 
-### 1. Detection Phase
+#### 1. Detection Phase
 
 -   The node subscribes to `/aruco_detections` and continuously rotates
     the robot by publishing a fixed angular velocity.
@@ -46,7 +46,7 @@ by **marker‑by‑marker centering**.
 -   Once five markers are collected, the node sorts their IDs and
     switches to the **centering phase**, starting with the first marker.
 
-### 2. Centering Phase (Global Alignment)
+#### 2. Centering Phase (Global Alignment)
 
 -   The node selects the current target marker (e.g., `marker_12`) and
     looks up its transform relative to the robot base.
@@ -57,14 +57,14 @@ by **marker‑by‑marker centering**.
 -   When the marker becomes visible in the image stream, the node
     switches to **local optimization**.
 
-### 3. Local Optimization (Visual Servoing)
+#### 3. Local Optimization (Visual Servoing)
 
 -   The node uses an image‑derived variable (`local_z`) to refine the
     centering with a more direct visual cue.
 -   When `|local_z|` falls below a threshold, the marker is considered
     centered precisely.
 
-### 4. Image Capture
+#### 4. Image Capture
 
 -   Upon successful centering, the node:
     -   Retrieves the last received image,
@@ -72,7 +72,7 @@ by **marker‑by‑marker centering**.
     -   Saves the processed image to the workspace resources directory,
     -   Publishes the modified image on `/final_marker_image`.
 
-### 5. Progression Through All Markers
+#### 5. Progression Through All Markers
 
 -   After finishing one marker, the node proceeds to the next ID in the
     sorted list.
@@ -82,7 +82,7 @@ by **marker‑by‑marker centering**.
 
 ---
 
-# Prerequisites
+## Prerequisites
 
 OS: Ubuntu (tested on Ubuntu 22 for ROS 2 Humble and Ubuntu 24 for ROS 2 Jazzy).
 
@@ -94,38 +94,95 @@ Python: system Python3 (version used by ROS 2 distro; typically 3.10+).
 
 System tools: colcon, vcstool (python3-vcstool), development libraries for ROS2 packages.
 
-# Installation (bundle workspace)
+## Installation (bundle workspace)
 
 This repository is provided as a bundle (multiple packages + repos files). The recommended workflow is to create a workspace and use vcs to import the referenced repositories.
 
+Clone the assignment bundle (example)
+
 ```bash
-# clone the assignment bundle (example)
-git clone https://github.com/ExpRobLab/assignment1_bundle.git
-cd assignment1_bundle
-
-# create a workspace (if not using the repo's workspace layout)
-mkdir -p ~/assignment_ws/src
-cd ~/assignment_ws
-
-# import repositories (if the bundle supplies .repos files inside the cloned repo)
-# from within your workspace:
-# vcs import src < path/to/assignment1_https.repos
-# or, if using a local copy of the bundle where the .repos are available:
-vcs import src < ./assignment1_bundle/assignment1_https.repos
-
-# (Alternatively, manually clone the repo contents into ~/assignment_ws/src)
-
-# build
-colcon build 
-
-# source the workspace 
-source install/local_setup.bash
-
-# launch the main demo:
-ros2 launch assignment1 assignment.launch.py
-# Or alternatively:
-ros2 launch worlds_manager my_launch_assignment.py
+git clone https://github.com/ExpRobLab/assignment1_bundle.git assignment1_ws
+cd assignment1_ws
 ```
+
+Import repositories (if the bundle supplies .repos files inside the cloned repo)
+from within your workspace:
+
+```bash
+vcs import src < assignment1_https.repos
+```
+
+or with SSH:
+
+```bash
+vcs import src < assignment1_ssh.repos
+```
+
+If you want to use also the simulation of the Husarion Rosbot:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y python3-pip ros-dev-tools
+
+export HUSARION_ROS_BUILD_TYPE=simulation
+vcs import src < src/rosbot_ros/rosbot/rosbot_${HUSARION_ROS_BUILD_TYPE}.repos
+
+export PIP_BREAK_SYSTEM_PACKAGES=1
+sudo rosdep init
+rosdep update --rosdistro $ROS_DISTRO
+rosdep install colcon build --symlink-install --packages-up-to
+-i --from-path src --rosdistro $ROS_DISTRO -y
+
+colcon build --symlink-install --packages-up-to rosbot --cmake-args -DCMAKE_BUILD_TYPE=Release
+```
+
+build
+
+```bash
+colcon build --symlink-install --packages-up-to assignment1 bme_gazebo_basics worlds_manager aruco_opencv_msgs aruco_opencv
+
+source install/local_setup.bash
+```
+
+## Launchfiles
+
+There are several choices to launch:
+
+1. MoGi bot with 2 wheels with differential driver control:
+
+```bash
+ros2 launch assignment1 assignment_2wheels.launch.py
+```
+2. MoGi bot with 4 wheels with skid steer control:
+
+```bash
+ros2 launch assignment1 assignment_4wheels_skid_steer.launch.py
+```
+3. MoGi bot with 4 wheels with mecanum drive controller:
+
+```bash
+ros2 launch assignment1 assignment_4wheels_mecanum.launch.py
+```
+
+4. Husarion Rosbot with 4 wheels with mecanum drive controller:
+
+```bash
+ros2 launch assignment1 assignment_husarion_sim.launch.py
+```
+
+4. Real Husarion Rosbot:
+
+```bash
+ros2 launch assignment1 assignment_husarion.launch.py
+```
+
+---
+---
+
+
+
+
+
 
 NOTE: The repo references ros_aruco_opencv external package. Make sure that package is available in your src and that you check-out (or initially clone in vs) a branch compatible with your ROS 2 distro if necessary.
 
@@ -145,17 +202,17 @@ Install apt dependencies commonly required (replace <distro> where necessary; ex
 sudo apt install ros-humble-ros-base ros-humble-cv-bridge ros-humble-image-transport                  ros-humble-gazebo-ros-pkgs python3-opencv
 ```
 
-# Launch files 
+## Launch files 
 
 - `assignment1/launch/assignment.launch.py` — recommended main demo launch (spawns robot, relevant nodes and world).
 
-# Nodes, topics & frames 
+## Nodes, topics & frames 
 
-## Important nodes
+### Important nodes
 - **aruco_detection_node** (script: `aruco_detections.py`) — core assignment logic.
 - **aruco_tracker** (from `ros_aruco_opencv`) — publishes detections to `/aruco_detections`.
 
-## Topics (publish / subscribe)
+### Topics (publish / subscribe)
 
 Subscribed:
 
@@ -167,19 +224,19 @@ Published:
 - `/cmd_vel`
 - `/final_marker_image`
 
-## TF frames used
+### TF frames used
 
 - `odom`
 - `base_footprint`
 - `marker_<ID>`
 
-# Detailed explanation of aruco_detections.py logic
+## Detailed explanation of aruco_detections.py logic
 
-## Node lifecycle & subscriptions
+### Node lifecycle & subscriptions
 
 Creates TF buffer, subscribes to detection and image topics, publishes velocity and images, uses a control loop.
 
-## Detection Phase (and callback)
+### Detection Phase (and callback)
 
 - Rotates robot while detecting
 - For each detected marker:
@@ -188,7 +245,7 @@ Creates TF buffer, subscribes to detection and image topics, publishes velocity 
 - When all 5 detected:
   - Sorts IDs, selects lowest, enters "centering" state
 
-## Control loop
+### Control loop
 
 - Active only in "centering"
 - TF lookup: `base_footprint -> marker_<id>`
@@ -199,21 +256,21 @@ Creates TF buffer, subscribes to detection and image topics, publishes velocity 
   - save + publish annotated image
   - state = "done"
 
-## Image handling & annotation
+### Image handling & annotation
 
 - Converts compressed → OpenCV
 - Draws circle on marker center
 - Saves PNG
 - Publishes annotated image
 
-# Parameters & tuning
+## Parameters & tuning
 
 - `Kp = 1.0`
 - `max_angular = 1.0`
 - `threshold = 0.1 rad`
 - `timer: 0.01s`
 
-# Output files, RQt graphs & screenshots
+## Output files, RQt graphs & screenshots
 
 - Output Images
 <table>
@@ -236,7 +293,7 @@ Creates TF buffer, subscribes to detection and image topics, publishes velocity 
   </tr>
  </table>
 
-# Troubleshooting & tips
+## Troubleshooting & tips
 
 Camera topic mismatch:
 
@@ -244,7 +301,7 @@ Camera topic mismatch:
 ros2 topic list | grep image
 ```
 
-# CLI snippets
+## CLI snippets
 
 ```bash
 ros2 node list
