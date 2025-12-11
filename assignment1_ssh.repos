@@ -3,9 +3,9 @@ repositories:
     type: git
     url: git@github.com:ExpRobLab/assignment1.git
     version: ari-circle
-  robot_manager:
+  bme_gazebo_basics:
     type: git
-    url: git@github.com:ExpRobLab/robot_manager.git
+    url: git@github.com:ExpRobLab/bme_gazebo_basics.git
     version: main
   worlds_manager:
     type: git
