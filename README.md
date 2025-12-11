@@ -12,8 +12,8 @@ Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The sys
      <td>Rviz panel</td>
   </tr>
   <tr>
-    <td><img src="gazebo.gif" width=533 height=300></td>
-    <td><img src="rviz.png" width=533 height=300></td>
+    <td><img src="images/gazebo.gif" width=533 height=300></td>
+    <td><img src="images/rviz.png" width=533 height=300></td>
   </tr>
  </table>
 
@@ -223,16 +223,16 @@ Creates TF buffer, subscribes to detection and image topics, publishes velocity 
     <td>Box 3</td>
   </tr>
   <tr>
-    <td><img src="box1.png" width=533 height=300></td>
-    <td><img src="box2.png" width=533 height=300></td>
-    <td><img src="box3.png" width=533 height=300></td>
+    <td><img src="images/box1.png" width=533 height=300></td>
+    <td><img src="images/box2.png" width=533 height=300></td>
+    <td><img src="images/box3.png" width=533 height=300></td>
   </tr>
  </table>
 
 - RQT Graph
 <table>
   <tr>
-    <td><img src="rqt.png" width=533 height=300></td>
+    <td><img src="images/rqt.png" width=533 height=300></td>
   </tr>
  </table>
 
