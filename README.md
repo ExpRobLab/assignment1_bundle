@@ -170,7 +170,7 @@ ros2 launch assignment1 assignment_4wheels_mecanum.launch.py
 ros2 launch assignment1 assignment_husarion_sim.launch.py
 ```
 
-4. Real Husarion Rosbot:
+5. Real Husarion Rosbot:
 
 ```bash
 ros2 launch assignment1 assignment_husarion.launch.py
