@@ -230,6 +230,7 @@ ros2 launch assignment1 assignment_husarion.launch.py
 ## Output files, RQt graphs & screenshots
 
 As it is clear in the images, there may be false positive detections in the real-world scenario.
+It is worth mentioning that the robot can only adjust its camera laterally (yaw), since the movements along roll and pitch are constrained.
 
 - Output Images
 <table>
