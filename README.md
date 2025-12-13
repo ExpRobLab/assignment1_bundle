@@ -141,6 +141,8 @@ sudo apt install -y \
 sudo apt update
 
 sudo apt-get ros-$RIS_DISTRO-control-msgs ros-$RIS_DISTRO-control-toolbox ros-$RIS_DISTRO-moveit-msgs
+sudo apt update
+sudo apt install python3-vcstool
 
 git clone https://github.com/ExpRobLab/assignment1_bundle.git assignment1_ws
 cd assignment1_ws
