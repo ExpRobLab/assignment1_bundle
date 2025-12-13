@@ -1,19 +1,21 @@
-# Aruco detection and angular visual servoing in Gazebo & ROS 2
+# Aruco detection and angular visual servoing in Gazebo & ROS 2, and on Rosbot hardware
 
 **Assignment 1 — Experimental Robotics Lab**  
 Authors: Gian Marco Balia, Christian Negri Ravera, Francesca Amato, Filippo Salterini, Arian Tavousi, Milad Rabiei
 
-**Short description:**  
+<details>
+<summary>Short description: </summary>
 Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The system detects all markers, then, in ascending order of marker ID, rotates the robot to center each marker in the image (visual servoing phase), publishes an annotated image (with a circle around the marker) on a topic and saves the final frames. 
+</details>
 
 <table>
   <tr>
     <td>Gazebo Run</td>
-     <td>Rviz panel</td>
+     <td>Rosbot Run</td>
   </tr>
   <tr>
     <td><img src="images/gazebo.gif" width=533 height=300></td>
-    <td><img src="images/rviz.png" width=533 height=300></td>
+    <td><img src="images/rosbot.gif" width=533 height=300></td>
   </tr>
  </table>
 
@@ -79,10 +81,19 @@ by **marker‑by‑marker centering**.
 -   When all markers have been centered and captured, the node enters
     the `done` state and stops issuing velocity commands.
 
+#### Parameters & tuning
+
+- `Kp = 1.0`
+- `max_angular = 1.0`
+- `threshold = 0.1 rad`
+- `timer: 0.01s`
+
 
 ---
 
 ## Prerequisites
+<details>
+ <summary>Details</summary>
 
 OS: Ubuntu (tested on Ubuntu 22 for ROS 2 Humble and Ubuntu 24 for ROS 2 Jazzy).
 
@@ -93,8 +104,14 @@ Gazebo Harmonic is used — confirm the exact Gazebo version matching the ROS 2 
 Python: system Python3 (version used by ROS 2 distro; typically 3.10+).
 
 System tools: colcon, vcstool (python3-vcstool), development libraries for ROS2 packages.
+</details>
+
 
 ## Installation (bundle workspace)
+
+<details>
+
+<summary>Details</summary>
 
 This repository is provided as a bundle (multiple packages + repos files). The recommended workflow is to create a workspace and use vcs to import the referenced repositories.
 
@@ -169,6 +186,11 @@ colcon build --symlink-install --packages-up-to assignment1 bme_gazebo_basics wo
 source install/local_setup.bash
 ```
 
+
+NOTE: The repo references ros_aruco_opencv external package. Make sure that package is available in your src (installed through `vcs`) and that you check-out (or initially clone in vs) a branch compatible with your ROS 2 distro if necessary. The package maintainer may have a branch per ROS distro. If using Humble or Jazzy, check out to the matching branch.
+
+</details>
+
 ## Launchfiles
 
 There are several choices to launch:
@@ -202,99 +224,6 @@ export ROS_DOMAIN_ID=<id_rosbot>
 ros2 launch assignment1 assignment_husarion.launch.py
 ```
 
----
----
-
-
-
-
-
-
-NOTE: The repo references ros_aruco_opencv external package. Make sure that package is available in your src and that you check-out (or initially clone in vs) a branch compatible with your ROS 2 distro if necessary.
-
-External dependencies (explicit):
-
-The bundle depends on the ArUco OpenCV ROS package:
-
-https://github.com/fictionlab/ros_aruco_opencv.git
-
-If you import via .repos this will be pulled automatically the Jazzy version. If not, clone it into src/.
-
-Important: the package maintainer may have a branch per ROS distro. If using Humble or Jazzy, check out the matching branch (or the aruco_detection branch referenced by your notes).
-
-Install apt dependencies commonly required (replace <distro> where necessary; example for Humble):
-
-```bash
-sudo apt install ros-humble-ros-base ros-humble-cv-bridge ros-humble-image-transport                  ros-humble-gazebo-ros-pkgs python3-opencv
-```
-
-## Launch files 
-
-- `assignment1/launch/assignment.launch.py` — recommended main demo launch (spawns robot, relevant nodes and world).
-
-## Nodes, topics & frames 
-
-### Important nodes
-- **aruco_detection_node** (script: `aruco_detections.py`) — core assignment logic.
-- **aruco_tracker** (from `ros_aruco_opencv`) — publishes detections to `/aruco_detections`.
-
-### Topics (publish / subscribe)
-
-Subscribed:
-
-- `/aruco_detections`
-- `/camera/image/compressed`
-
-Published:
-
-- `/cmd_vel`
-- `/final_marker_image`
-
-### TF frames used
-
-- `odom`
-- `base_footprint`
-- `marker_<ID>`
-
-## Detailed explanation of aruco_detections.py logic
-
-### Node lifecycle & subscriptions
-
-Creates TF buffer, subscribes to detection and image topics, publishes velocity and images, uses a control loop.
-
-### Detection Phase (and callback)
-
-- Rotates robot while detecting
-- For each detected marker:
-  - TF lookup `odom -> marker_<id>`
-  - Records transform + ID
-- When all 5 detected:
-  - Sorts IDs, selects lowest, enters "centering" state
-
-### Control loop
-
-- Active only in "centering"
-- TF lookup: `base_footprint -> marker_<id>`
-- Compute angle using atan2
-- P-controller for angular velocity
-- When centered:
-  - publish stop
-  - save + publish annotated image
-  - state = "done"
-
-### Image handling & annotation
-
-- Converts compressed → OpenCV
-- Draws circle on marker center
-- Saves PNG
-- Publishes annotated image
-
-## Parameters & tuning
-
-- `Kp = 1.0`
-- `max_angular = 1.0`
-- `threshold = 0.1 rad`
-- `timer: 0.01s`
 
 ## Output files, RQt graphs & screenshots
 
@@ -310,6 +239,11 @@ Creates TF buffer, subscribes to detection and image topics, publishes velocity 
     <td><img src="images/box2.png" width=533 height=300></td>
     <td><img src="images/box3.png" width=533 height=300></td>
   </tr>
+  <tr>
+    <td><img src="images/box1r.png" width=533 height=300></td>
+    <td><img src="images/box2r.png" width=533 height=300></td>
+    <td><img src="images/box3r.png" width=533 height=300></td>
+  </tr>
  </table>
 
 - RQT Graph
@@ -319,18 +253,3 @@ Creates TF buffer, subscribes to detection and image topics, publishes velocity 
   </tr>
  </table>
 
-## Troubleshooting & tips
-
-Camera topic mismatch:
-
-```bash
-ros2 topic list | grep image
-```
-
-## CLI snippets
-
-```bash
-ros2 node list
-ros2 topic echo /aruco_detections
-ros2 topic hz /camera/image/compressed
-```
