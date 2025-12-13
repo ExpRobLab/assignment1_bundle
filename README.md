@@ -175,7 +175,7 @@ export PIP_BREAK_SYSTEM_PACKAGES=1
 sudo rosdep init
 rosdep update --rosdistro $ROS_DISTRO
 rosdep install colcon build --symlink-install --packages-up-to
--i --from-path src --rosdistro $ROS_DISTRO -y
+rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y
 
 colcon build --symlink-install --packages-up-to rosbot --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
