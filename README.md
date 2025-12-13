@@ -138,10 +138,9 @@ sudo apt install -y \
   ros-$ROS_DISTRO-xacro \
   ros-$ROS_DISTRO-urdf\
   ros-$ROS_DISTRO-moveit-servo\
+  ros-$RIS_DISTRO-moveit-msgs\
   ros-$ROS_DISTRO-localization\
-sudo apt update
 
-sudo apt-get ros-$RIS_DISTRO-control-msgs ros-$RIS_DISTRO-control-toolbox ros-$RIS_DISTRO-moveit-msgs
 sudo apt update
 sudo apt install python3-vcstool
 
