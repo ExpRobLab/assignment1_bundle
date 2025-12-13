@@ -249,7 +249,7 @@ ros2 launch assignment1 assignment_husarion.launch.py
 - RQT Graph
 <table>
   <tr>
-    <td><img src="images/rqt.png" width=533 height=300></td>
+    <td><img src="images/rqt.png" width=1000 height=300></td>
   </tr>
  </table>
 
