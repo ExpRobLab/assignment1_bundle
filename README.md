@@ -229,6 +229,8 @@ ros2 launch assignment1 assignment_husarion.launch.py
 
 ## Output files, RQt graphs & screenshots
 
+As it is clear in the images, there may be false positive detections in the real-world scenario.
+
 - Output Images
 <table>
   <tr>
