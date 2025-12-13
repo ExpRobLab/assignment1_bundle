@@ -5,7 +5,7 @@ Authors: Gian Marco Balia, Christian Negri Ravera, Francesca Amato, Filippo Salt
 
 <details>
 <summary>Short description: </summary>
-Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The system detects all markers, then, in ascending order of marker ID, rotates the robot to center each marker in the image (visual servoing phase), publishes an annotated image (with a circle around the marker) on a topic and saves the final frames. 
+Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The system detects all markers, then, in ascending order of marker ID, rotates the robot to center each marker in the image (global alignment and visual servoing phases), publishes an annotated image (with a circle around the marker) on a topic and saves the final frames. 
 </details>
 
 <table>
@@ -25,7 +25,7 @@ Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The sys
 - Gazebo simulation with a robot and 5 ArUco-marked boxes placed in a circular arrangement.
 - ArUco detection pipeline (via `ros_aruco_opencv` package).
 - `aruco_detections.py` node:
-  - searches for all 5 marker IDs are detected and records their transformations w.r.t the world,
+  - searches for all 5 marker IDs are detected and records their transformations for the future,
   - sorts IDs and selects the lowest remaining ID as target,
   - rotates the robot to center the marker in the camera image (angular visual servoing),
   - when centered, draws a circle on the image, publishes it on `/final_marker_image` and saves to disk,
