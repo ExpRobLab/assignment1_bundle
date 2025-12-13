@@ -173,6 +173,7 @@ ros2 launch assignment1 assignment_husarion_sim.launch.py
 5. Real Husarion Rosbot:
 
 ```bash
+export ROS_DOMAIN_ID=<id_rosbot>
 ros2 launch assignment1 assignment_husarion.launch.py
 ```
 
