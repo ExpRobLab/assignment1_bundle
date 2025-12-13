@@ -102,7 +102,27 @@ Clone the assignment bundle (example)
 
 ```bash
 sudo apt-get update
-sudo apt-get install -y python3-pip ros-dev-tools
+sudo apt install -y \
+  python3-pip ros-dev-tools\
+  ros-$ROS_DISTRO-control-msgs \
+  ros-$ROS_DISTRO-control-toolbox \
+  ros-$ROS_DISTRO-ros2-control \
+  ros-$ROS_DISTRO-ros2-controllers \
+  ros-$ROS_DISTRO-joy \
+  ros-$ROS_DISTRO-teleop-twist-joy \
+  ros-$ROS_DISTRO-moveit \
+  ros-$ROS_DISTRO-moveit-ros-planning \
+  ros-$ROS_DISTRO-moveit-ros-move-group \
+  ros-$ROS_DISTRO-moveit-core \
+  ros-$ROS_DISTRO-moveit-plugins \
+  ros-$ROS_DISTRO-tf2 \
+  ros-$ROS_DISTRO-tf2-ros \
+  ros-$ROS_DISTRO-tf2-geometry-msgs \
+  ros-$ROS_DISTRO-xacro \
+  ros-$ROS_DISTRO-urdf\
+  ros-$ROS_DISTRO-moveit-servo
+sudo apt update
+
 sudo apt-get ros-$RIS_DISTRO-control-msgs ros-$RIS_DISTRO-control-toolbox ros-$RIS_DISTRO-moveit-msgs
 
 git clone https://github.com/ExpRobLab/assignment1_bundle.git assignment1_ws
