@@ -101,8 +101,13 @@ This repository is provided as a bundle (multiple packages + repos files). The r
 Clone the assignment bundle (example)
 
 ```bash
+sudo apt-get update
+sudo apt-get install -y python3-pip ros-dev-tools
+sudo apt-get ros-$RIS_DISTRO-control-msgs ros-$RIS_DISTRO-control-toolbox ros-$RIS_DISTRO-moveit-msgs
+
 git clone https://github.com/ExpRobLab/assignment1_bundle.git assignment1_ws
 cd assignment1_ws
+mkdir src
 ```
 
 Import repositories (if the bundle supplies .repos files inside the cloned repo)
