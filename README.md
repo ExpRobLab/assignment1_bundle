@@ -240,9 +240,9 @@ ros2 launch assignment1 assignment_husarion.launch.py
     <td><img src="images/box3.png" width=533 height=300></td>
   </tr>
   <tr>
-    <td><img src="images/box1r.png" width=533 height=300></td>
-    <td><img src="images/box2r.png" width=533 height=300></td>
-    <td><img src="images/box3r.png" width=533 height=300></td>
+    <td><img src="images/box_1r.png" width=533 height=300></td>
+    <td><img src="images/box_2r.png" width=533 height=300></td>
+    <td><img src="images/box_3r.png" width=533 height=300></td>
   </tr>
  </table>
 
