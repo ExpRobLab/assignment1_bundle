@@ -10,14 +10,18 @@ Spawn a robot in a Gazebo world with 5 ArUco markers placed in a circle. The sys
 
 <table>
   <tr>
-    <td>Gazebo Run</td>
-     <td>Rosbot Run</td>
+    <th>Gazebo Run</th>
+    <th>Rosbot Run</th>
   </tr>
   <tr>
-    <td><img src="images/gazebo.gif" width=533 height=300></td>
-    <td><img src="images/rosbot.gif" width=533 height=300></td>
+    <td>
+      <img src="images/gazebo.gif" width="533" height="300" />
+    </td>
+    <td>
+      <img src="images/rosbot.gif" width="533" height="300" />
+    </td>
   </tr>
- </table>
+</table>
 
 ---
 
